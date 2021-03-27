@@ -1,0 +1,83 @@
+# participantNumber = 2
+# participantData = []  # enter participant data - name,country of origin
+# registeredParticipants = 0
+# datafile = open("participantData.txt", "r+")
+# while registeredParticipants < participantNumber:
+#     tempPartData = []
+#
+#     name = input("enter name of the participant : ")
+#     country = input("what is your country of origin ? ")
+#     age = int(input("age please : "))
+#
+#     tempPartData.append(name)
+#     tempPartData.append(country)
+#     tempPartData.append(age)
+#     participantData.append(tempPartData)
+#
+#     registeredParticipants += 1
+# # print(participantData)
+#
+# # write to file
+# for participant in participantData:
+#     for data in participant:
+#         datafile.write(str(data) + " ")
+#     datafile.write("\n")
+#
+# datafile.close()
+print()
+datafile = open("participantData.txt", "r")
+finalList = []
+for line in datafile:
+    temp = line.strip().split()  # strip()  gets rib of the new line,
+    # split() splits each element at the space and adds it to a list
+    finalList.append(temp)
+print("file content after reading")
+print(finalList)  # list printed on screen-> [['judy', 'ken', '30'], ['kev', 'dutch', '27']....,
+# print(finalList[-1])  # output last list in the out list
+# for x in finalList:
+#     print(x[-1], end=",")  # outputs last items from each inner list
+print()
+age = {}
+country = {}
+for element in finalList:
+
+    temp_age = int(element[-1])  # accessing last items in a list with a list
+
+    if temp_age in age:  # if key is in the dict
+        age[temp_age] += 1
+    else:
+        age[temp_age] = 1  # automatically adds a key to the dict and assigns it a value
+
+    if element in finalList:
+        if element[1] in country:
+            country[element[1]] += 1
+        else:
+            country[element[1]] = 1
+print(f'age summary {age}')
+print(f'country summary {country}')
+print()
+oldest = 0
+youngest = 100
+most_occurringAge = 0
+most_popular = 0
+value_counter = 0
+counter = 0
+
+for temp_age in age:
+    if temp_age > oldest:
+        oldest = temp_age
+    if temp_age < youngest:
+        youngest = temp_age
+    if age[temp_age] > value_counter:
+        value_counter = age[temp_age]
+        most_occurringAge = temp_age
+for temp in country:
+    if country[temp] > counter:
+        counter = country[temp]
+        most_popular = temp
+
+print("oldest age :", oldest)
+print("youngest age :", youngest)
+print(f'the most occurring age is {most_occurringAge} with {value_counter} participants')
+print(f'the most popular country is {most_popular} with {counter} participants')
+datafile.close()
