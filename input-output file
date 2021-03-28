@@ -1,0 +1,89 @@
+# a note taking program
+
+import os  # enable deleting the file
+from os import path
+
+"""os module enables the deleting of a file
+while path enable access of the exists()"""
+
+
+def replace(file):
+    line_number = int(input("what line would you like to replace please : "))
+    new_string = input("please enter the new text : ")
+    update_file = ""
+    reading_file = open(file, "r")
+
+    for num, each_line in enumerate(reading_file, 1):
+        """"loop thru using using enumerate to assign each line a number
+        when num marches the line user want to replace
+        the old test is replace with new text using the replace() method"""
+
+        if num == line_number:
+            new_line = each_line.replace(each_line, new_string)
+            update_file += new_line + "\n"
+        else:
+            update_file += each_line
+    reading_file.close()
+
+    writing_file = open(file_name, "w+")
+    writing_file.write(update_file)
+    print()
+    print("updated file")
+    print(update_file)
+
+
+while True:
+
+    user_options = {"A": "Read the file",
+                    "B": "Delete the file and start over",
+                    "C": "Append the file",
+                    "D": "Replace a single line"}
+
+    file_name = input("please enter a file name : ") # ensure you add file extension
+    print()
+
+    """ if the file exist user should select option a,b or c otherwise the file is create and a text added"""
+    if path.exists(file_name):
+        for option, value in user_options.items():
+            print(option, value)
+
+        print()
+
+        task = input("please select one of the above option :").upper()  # upper() converts into to upper case
+
+        if task == "A":
+            input_file = open(file_name, "r")  # file is open in read only mode and its content is displayed on screen
+            for line in input_file:
+                print(line, end=" ")
+            input_file.close()
+
+        elif task == "B":
+            # delete file and create another in its place
+            os.remove(file_name)
+            new_file = input("enter the name of the new file :")
+            f = open(new_file, "x")  # x mode create a new empty file if the file doesnt exist
+
+            f.close()
+
+        elif task == "C":
+            user_text = input("what else would you like to add to the file ?")
+            out_put = open(file_name,
+                           "a")  # file is open in append mode,its content are retained and new is added at the end
+            out_put.write(user_text + "\n ")
+            out_put.close()
+        else:
+            replace(file_name)
+
+    else:
+        print("New file!")
+        user_text = input("what text would you like ro add to the new file ?")
+        output_file = open(file_name, "w")
+        output_file.write(user_text + "\n ")
+        print(f'{file_name} file has been created!!')
+        output_file.close()
+    print()
+    cont = input("would you like to continue? yes/no > ")
+    if cont == "yes":
+        continue
+    else:
+        break
